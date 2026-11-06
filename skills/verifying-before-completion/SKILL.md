@@ -1,11 +1,11 @@
 ---
-name: verification-before-completion
+name: verifying-before-completion
 description: Required completion gate before the final report of every coding task, even when tests already pass; checks open Hunk review notes, todo and OpenSpec task lists, leftover background processes, and fresh evidence for each claim that work is done, fixed, passing, reviewed, ready, committed, or integrated.
 metadata:
   opencode/autoinvoke: true
 ---
 
-# Verification Before Completion
+# Verifying Before Completion
 
 Report only the state proven by fresh evidence. Expectations, stale output, and subagent reports are not completion evidence.
 

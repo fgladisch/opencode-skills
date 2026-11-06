@@ -34,30 +34,30 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ## Agents
 
-| Agent      | Purpose                                                                                                       |
-| ---------- | ------------------------------------------------------------------------------------------------------------- |
-| `reviewer` | Read-only review subagent that `local-code-review` dispatches once per category; posts findings as Hunk notes |
+| Agent      | Purpose                                                                                                             |
+| ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| `reviewer` | Read-only review subagent that `reviewing-local-changes` dispatches once per category; posts findings as Hunk notes |
 
 ## Skills
 
-| Skill                            | When to use                                                                                                           |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `commit`                         | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback     |
-| `finalizing-changes`             | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain                |
-| `local-code-review`              | When reviewing local code changes in a working tree, branch, commit, or defined file set; findings land as Hunk notes |
-| `systematic-debugging`           | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis               |
-| `test-driven-development`        | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work         |
-| `verification-before-completion` | As the completion gate before the final report of every coding task, even when tests already pass                     |
+| Skill                         | When to use                                                                                                           |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `committing-changes`          | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback     |
+| `debugging-systematically`    | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis               |
+| `developing-test-first`       | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work         |
+| `finalizing-changes`          | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain                |
+| `reviewing-local-changes`     | When reviewing local code changes in a working tree, branch, commit, or defined file set; findings land as Hunk notes |
+| `verifying-before-completion` | As the completion gate before the final report of every coding task, even when tests already pass                     |
 
 ## Skill dependency graph
 
 ```mermaid
 flowchart TB
-  SD["systematic-debugging"]
-  TDD["test-driven-development"]
-  CR["local-code-review"]
-  V["verification-before-completion"]
-  C["commit"]
+  SD["debugging-systematically"]
+  TDD["developing-test-first"]
+  CR["reviewing-local-changes"]
+  V["verifying-before-completion"]
+  C["committing-changes"]
   F["finalizing-changes"]
 
   SD -. "when a regression cycle is feasible" .-> TDD
@@ -76,12 +76,12 @@ Arrows mean the source skill explicitly applies the target skill, and dashed edg
 
 [OpenSpec](https://github.com/Fission-AI/OpenSpec) is the recommended way to plan changes with these skills; it replaces ad hoc planning with the `plan` agent. Each change gets a proposal, delta specs with WHEN/THEN scenarios, a design, and a task list before code is written. The skills work without it. When the current work implements an active OpenSpec change, they also use its artifacts:
 
-| Skill                            | With an active OpenSpec change                                                             |
-| -------------------------------- | ------------------------------------------------------------------------------------------ |
-| `test-driven-development`        | Turns each delta-spec scenario into a failing test before the task that implements it      |
-| `verification-before-completion` | Treats checked `tasks.md` items as claims that need evidence; runs `openspec validate`     |
-| `local-code-review`              | Gives reviewers the proposal and delta specs as the intended behavior                      |
-| `finalizing-changes`             | Writes the pull request What and Why from the proposal; leaves archiving until after merge |
+| Skill                         | With an active OpenSpec change                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| `developing-test-first`       | Turns each delta-spec scenario into a failing test before the task that implements it      |
+| `verifying-before-completion` | Treats checked `tasks.md` items as claims that need evidence; runs `openspec validate`     |
+| `reviewing-local-changes`     | Gives reviewers the proposal and delta specs as the intended behavior                      |
+| `finalizing-changes`          | Writes the pull request What and Why from the proposal; leaves archiving until after merge |
 
 Initialize each repository with the core profile. For OpenCode, OpenSpec installs its workflow as project skills under `.opencode/skills/`:
 
@@ -94,7 +94,7 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 1. `@openspec-explore` to investigate when the idea is still open.
 2. `@openspec-propose <idea>` to create the change; review and edit its artifacts.
 3. Create the topic branch, then `@openspec-apply-change` to implement the tasks.
-4. `/local-review-cycle` or `local-code-review` to review the result.
+4. `/local-review-cycle` or `reviewing-local-changes` to review the result.
 5. `finalizing-changes` or `/pr` to publish it, then `/pr-review-loop` to address the pull request review.
 6. After the merge, `@openspec-archive-change` on the base branch to merge the delta specs into `openspec/specs/`, then commit the result.
 
@@ -105,7 +105,7 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 - `shell` runs finite commands; `shell` with `background: true` runs services and watchers that notify the session when they exit. Pull request and issue state comes from `gh` through `shell`.
 - `subagent` runs child sessions; several calls in one response run in parallel. The `reviewer` agent in this repository is the review subagent.
 - The `browser` Code Mode namespace, reached through `execute`, verifies UI behavior when the OpenCode desktop app provides a browser.
-- [Hunk](https://hunk.dev/) is required for `local-code-review` and `local-review-cycle`: findings, decisions, and fixes are recorded as note threads in a live `hunk diff` session, and `verification-before-completion` checks those threads before completion claims.
+- [Hunk](https://hunk.dev/) is required for `reviewing-local-changes` and `local-review-cycle`: findings, decisions, and fixes are recorded as note threads in a live `hunk diff` session, and `verifying-before-completion` checks those threads before completion claims.
 - Skills load through the `skill` tool, which also returns the skill's base directory so supporting files resolve by relative path.
 - Project instructions live in `AGENTS.md`; OpenCode loads them as repository context.
 

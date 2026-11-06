@@ -25,7 +25,7 @@ An OpenSpec change is active when `openspec list --json` reports a non-null `roo
 For an active change:
 
 - The change's directory under `openspec/changes/` belongs to the intended change set; commit it together with the code.
-- Apply the OpenSpec checks in `verification-before-completion` before presenting outcomes: every `tasks.md` item checked with evidence, and `openspec validate <name> --strict` passing.
+- Apply the OpenSpec checks in `verifying-before-completion` before presenting outcomes: every `tasks.md` item checked with evidence, and `openspec validate <name> --strict` passing.
 - Never archive the change as part of finalizing. Archiving moves it into `openspec/changes/archive/` and merges its delta specs into `openspec/specs/`; do it only after the code reaches the base branch, as a separate request. Name the `openspec-archive-change` skill for `<name>` as the next step in the final report.
 
 ## Present outcomes
@@ -45,7 +45,7 @@ The selection authorizes only the actions named in that option. Creating a pull 
 
 ### Commit in place
 
-Offer this only when repository policy permits committing to the current branch. Load the `commit` skill to include only the intended changes, then report the commit and preserved working state.
+Offer this only when repository policy permits committing to the current branch. Load the `committing-changes` skill to include only the intended changes, then report the commit and preserved working state.
 
 ### Merge locally
 
@@ -53,7 +53,7 @@ Offer this only when a completed topic branch differs from the base branch and h
 
 ### Push and create a pull request
 
-Use the repository's configured forge CLI, such as `gh`, through `shell`. If the intended changes are uncommitted, create a topic branch first when repository policy requires one, then load the `commit` skill to include only those changes. Push without force and preserve the local branch and worktree.
+Use the repository's configured forge CLI, such as `gh`, through `shell`. If the intended changes are uncommitted, create a topic branch first when repository policy requires one, then load the `committing-changes` skill to include only those changes. Push without force and preserve the local branch and worktree.
 
 #### Compose the pull request
 
@@ -93,4 +93,4 @@ Review the title and body against the final diff immediately before creation. Cr
 
 Leave the intended changes, branch, and worktree unchanged. Report their state, names, and paths.
 
-Load the `verification-before-completion` skill before every claim about validation, commits, merges, pushes, or pull requests.
+Load the `verifying-before-completion` skill before every claim about validation, commits, merges, pushes, or pull requests.

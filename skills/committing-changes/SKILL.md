@@ -1,11 +1,11 @@
 ---
-name: commit
+name: committing-changes
 description: Use before every git commit, whether the user asked for it or you commit on your own as a checkpoint or as part of another workflow; follows repository conventions with gitmoji as the fallback.
 metadata:
   opencode/autoinvoke: true
 ---
 
-# Commit
+# Committing Changes
 
 Create one intentional commit from an evidence-backed file set and message.
 
@@ -40,4 +40,4 @@ Stage specific paths with `shell`. Do not use `git add .` or `git add -A` unless
 
 If a hook fails, report the complete failure and leave the commit uncreated. Fix hook failures only when the original request authorizes those edits. Never bypass hooks, amend, push, add attribution, or broaden the file set without explicit authorization.
 
-Load the `verification-before-completion` skill before reporting the commit created.
+Load the `verifying-before-completion` skill before reporting the commit created.

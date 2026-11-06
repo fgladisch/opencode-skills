@@ -1,11 +1,11 @@
 ---
-name: local-code-review
+name: reviewing-local-changes
 description: Use when reviewing local code changes in a working tree, branch, commit, or defined file set; records findings and decisions as notes in a live Hunk session.
 metadata:
   opencode/autoinvoke: true
 ---
 
-# Local Code Review
+# Reviewing Local Changes
 
 Delegate every change review to focused subagents that post candidate findings as notes in a live Hunk session. Evaluate those notes in the main session, record each decision as a reply in the same thread, and address accepted findings when fixes are requested.
 
@@ -106,4 +106,4 @@ If the user requested fixes or cleanup, apply only accepted in-scope corrections
 
 ## Validate
 
-Load the `verification-before-completion` skill, including its Hunk note check, before reporting review conclusions or accepted fixes. In an inspection-only review, `Accepted:` threads are the review result: report them instead of fixing them.
+Load the `verifying-before-completion` skill, including its Hunk note check, before reporting review conclusions or accepted fixes. In an inspection-only review, `Accepted:` threads are the review result: report them instead of fixing them.

@@ -2,7 +2,7 @@
 description: Review local changes in Hunk and apply fixes until LGTM
 ---
 
-Run a local review cycle over the complete intended change using the `local-code-review` skill. Do not create or use a pull request for review.
+Run a local review cycle over the complete intended change using the `reviewing-local-changes` skill. Do not create or use a pull request for review.
 
 The live Hunk session is the shared review surface and the review history. Select it and load the complete intended change as described in the skill's `Hunk session` section; if no session exists, ask the user to launch `hunk diff` in their terminal before starting.
 

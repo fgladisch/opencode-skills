@@ -1,11 +1,11 @@
 ---
-name: systematic-debugging
+name: debugging-systematically
 description: Use when a bug, failing test, build failure, performance regression, or other unexpected behavior needs diagnosis before a fix is proposed.
 metadata:
   opencode/autoinvoke: true
 ---
 
-# Systematic Debugging
+# Debugging Systematically
 
 Find evidence for the failure mechanism before changing production behavior. Observe the real state through OpenCode's tools instead of guessing.
 
@@ -37,7 +37,7 @@ Once the cause is supported:
 4. Run the focused regression check and broader checks proportional to the affected area.
 5. Remove temporary diagnostics and stop background processes you started unless they provide lasting operational value.
 
-Load the `test-driven-development` skill when a reliable red-green cycle is feasible. Load the `verification-before-completion` skill before reporting the bug fixed.
+Load the `developing-test-first` skill when a reliable red-green cycle is feasible. Load the `verifying-before-completion` skill before reporting the bug fixed.
 
 ## Escalate
 

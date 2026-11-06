@@ -1,5 +1,5 @@
 ---
-description: Reviews an assigned slice of a code change and posts evidence-backed findings as notes in a live Hunk session. Never edits files. Used by the local-code-review skill.
+description: Reviews an assigned slice of a code change and posts evidence-backed findings as notes in a live Hunk session. Never edits files. Used by the reviewing-local-changes skill.
 mode: subagent
 permissions:
   - action: edit

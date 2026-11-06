@@ -1,11 +1,11 @@
 ---
-name: test-driven-development
+name: developing-test-first
 description: Use before writing any production code for a new app, project, feature, endpoint, behavior change, or bug fix, including greenfield work in an empty repository; the failing test comes first.
 metadata:
   opencode/autoinvoke: true
 ---
 
-# Test-Driven Development
+# Developing Test-First
 
 Write a failing executable check before changing production code, then make the smallest change that satisfies it.
 
@@ -49,7 +49,7 @@ Tests must be deterministic, isolated, and resistant to implementation-only chan
 
 ## Review
 
-After the Green and Refactor steps, load the `local-code-review` skill when the change carries meaningful compatibility, security, data-integrity, or operational risk. Keep review optional for small, low-risk changes.
+After the Green and Refactor steps, load the `reviewing-local-changes` skill when the change carries meaningful compatibility, security, data-integrity, or operational risk. Keep review optional for small, low-risk changes.
 
 ## Practical exceptions
 
@@ -59,4 +59,4 @@ Do not delete correct pre-existing work because its tests were written later. Im
 
 ## Report red evidence
 
-The final report names each test observed failing before its production change and the failure reason it showed, and names the substitute validation for each exception. A test first run after the production change is not red evidence: to recover, revert only the production change temporarily (for example `git stash push -- <production paths>`), observe the failure, restore it, and report that order. Load the `verification-before-completion` skill before claiming the behavior works or the regression is covered.
+The final report names each test observed failing before its production change and the failure reason it showed, and names the substitute validation for each exception. A test first run after the production change is not red evidence: to recover, revert only the production change temporarily (for example `git stash push -- <production paths>`), observe the failure, restore it, and report that order. Load the `verifying-before-completion` skill before claiming the behavior works or the regression is covered.
