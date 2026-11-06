@@ -1,9 +1,14 @@
 # Todo API
 
-A small in-memory todo REST API built on Node.js built-ins only.
+A small in-memory todo REST API built with NestJS 11 and TypeScript.
 
-- `npm start` listens on `PORT` (default 3000).
-- `npm test` runs the HTTP tests with `node --test`.
+```sh
+pnpm install
+pnpm verify      # typecheck, lint, format check, tests, build
+pnpm start       # listens on PORT (default 3000)
+```
+
+`pnpm test` runs the HTTP tests in `test/` with Jest and supertest.
 
 | Method | Path         | Body                     |
 | ------ | ------------ | ------------------------ |

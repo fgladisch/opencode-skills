@@ -91,6 +91,18 @@ function prepare(skill, index, scenario) {
     fs.cpSync(path.join(FIXTURES_DIR, scenario.fixture), dir, {
       recursive: true,
     });
+  // Fixtures commit only the lockfile; pnpm links packages from its shared store, so this takes seconds.
+  if (fs.existsSync(path.join(dir, "pnpm-lock.yaml"))) {
+    const install = spawnSync(
+      "pnpm",
+      ["install", "--frozen-lockfile", "--prefer-offline"],
+      { cwd: dir, encoding: "utf8", env: { ...process.env, PWD: dir } },
+    );
+    if (install.status !== 0)
+      throw new Error(
+        `pnpm install failed in ${dir}\n  ${install.error?.message ?? install.stderr}`,
+      );
+  }
   git(dir, "init", "-q", "-b", "main");
   git(dir, "config", "user.name", "Skill Eval");
   git(dir, "config", "user.email", "eval@example.invalid");

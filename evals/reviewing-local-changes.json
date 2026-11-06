@@ -3,15 +3,15 @@
     "skills": ["reviewing-local-changes"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js 'update(id, { title, completed }) {' 'update(id, changes) {' \"      if (title !== undefined) todo.title = title.trim();\\n      if (completed !== undefined) todo.completed = completed;\" '      Object.assign(todo, changes);'",
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js 'const input = validate(await readJson(req), { partial: true });\\n      const todo = store.update(id, input);' 'const body = await readJson(req);\\n      validate(body, { partial: true });\\n      const todo = store.update(id, body);'"
+      "node \"$EVALS_DIR/replace.mjs\" src/app.module.ts '        whitelist: true,\\n        forbidNonWhitelisted: true,\\n' ''",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '  update(id: string, { title, completed }: UpdateTodoDto): Todo {\\n    const todo = this.findOne(id);\\n    if (title !== undefined) todo.title = this.cleanTitle(title);\\n    if (completed !== undefined) todo.completed = completed;\\n    return todo;\\n  }' '  update(id: string, changes: UpdateTodoDto): Todo {\\n    const todo = { ...this.findOne(id), ...changes };\\n    this.todos.set(id, todo);\\n    return todo;\\n  }'"
     ],
     "query": "Can you review my uncommitted changes before I commit?",
     "expected_behavior": [
       "Runs hunk session list --json and, with no matching session, asks the user to launch hunk diff and waits instead of reviewing in chat",
       "Does not run interactive hunk diff or hunk show itself",
       "Does not edit the code",
-      "If a session is available: posts findings that PATCH can overwrite id and arbitrary fields and that titles are no longer trimmed"
+      "If a session is available: posts findings that dropping whitelist/forbidNonWhitelisted plus spreading the body lets PATCH overwrite id and arbitrary fields, and that updated titles are no longer trimmed"
     ]
   },
   {
@@ -19,10 +19,10 @@
     "fixture": "todo-api",
     "setup": [
       "git checkout -qb feat/x",
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js '    remove(id) {' '    clear() {\\n      todos.clear();\\n    },\\n\\n    remove(id) {'",
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js '      if (req.method === \"POST\") {' '      if (req.method === \"DELETE\") {\\n        store.clear();\\n        return send(res, 204);\\n      }\\n      if (req.method === \"POST\") {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '  remove(id: string): void {' '  clear(): void {\\n    this.todos.clear();\\n  }\\n\\n  remove(id: string): void {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.controller.ts '  @Get(\":id\")' '  @Delete()\\n  @HttpCode(204)\\n  clear(): void {\\n    this.todosService.clear();\\n  }\\n\\n  @Get(\":id\")'",
       "git commit -qam '✨ feat: add clear-all endpoint'",
-      "node \"$EVALS_DIR/replace.mjs\" test/todos.test.js 'describe(\"unknown routes\", () => {' 'describe(\"DELETE /todos\", () => {\\n  it(\"removes every todo\", async () => {\\n    await createTodo({ title: \"One\" });\\n    await createTodo({ title: \"Two\" });\\n    assert.equal((await request(\"DELETE\", \"/todos\")).status, 204);\\n    assert.deepEqual(await (await request(\"GET\", \"/todos\")).json(), []);\\n  });\\n});\\n\\ndescribe(\"unknown routes\", () => {'",
+      "node \"$EVALS_DIR/replace.mjs\" test/todos.spec.ts '  it(\"returns 404 for unknown routes\"' '  describe(\"DELETE /todos\", () => {\\n    it(\"removes every todo\", async () => {\\n      await createTodo({ title: \"One\" });\\n      await createTodo({ title: \"Two\" });\\n      const server = app.getHttpServer();\\n      await request(server).delete(\"/todos\").expect(204);\\n      const res = await request(server).get(\"/todos\").expect(200);\\n      expect(res.body).toEqual([]);\\n    });\\n  });\\n\\n  it(\"returns 404 for unknown routes\"'",
       "node \"$EVALS_DIR/replace.mjs\" README.md '| DELETE | `/todos/:id` |                          |' '| DELETE | `/todos/:id` |                          |\\n| DELETE | `/todos`     |                          |'",
       "git commit -qam '✅ test: cover clear-all endpoint'"
     ],
@@ -30,7 +30,7 @@
     "expected_behavior": [
       "Determines the base as main and the two-commit range feat/x is ahead by",
       "Runs hunk session list --json and, with no matching session, asks the user to launch hunk diff and waits",
-      "If a session is available: reloads it with diff <base_sha> and confirms both scoped files with hunk session review",
+      "If a session is available: reloads it with diff <base_sha> and confirms all four changed files with hunk session review",
       "Does not edit the code or commit"
     ]
   },
@@ -38,12 +38,12 @@
     "skills": ["reviewing-local-changes"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js 'if (title !== undefined)' 'if (title)' 'if (completed !== undefined)' 'if (completed)'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts 'if (title !== undefined)' 'if (title)' 'if (completed !== undefined)' 'if (completed)'",
       "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: simplify todo update checks'"
     ],
     "query": "Have a look at the last commit, anything off?",
     "expected_behavior": [
-      "Identifies the last commit as the teammate refactor of store.update",
+      "Identifies the last commit as the teammate refactor of TodosService.update",
       "Runs hunk session list --json and, with no matching session, asks the user to launch hunk diff and waits",
       "If a session is available: reloads with show <sha> and posts a finding that falsy values such as completed: false are dropped",
       "Does not edit the code"

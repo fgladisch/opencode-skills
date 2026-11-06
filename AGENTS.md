@@ -49,6 +49,8 @@ Follow Anthropic's [Skill authoring best practices](https://platform.claude.com/
 
 Every skill has `evals/<skill-name>.json` with at least three scenarios. A scenario's `query` is a realistic user prompt that never names a skill. When adding, renaming, or removing a skill, update its eval file in the same change. After changing a description or a trigger, run the affected scenarios with `node evals/run.mjs <skill-name>` and report which expected skills loaded. Runs call `opencode run` and take minutes each, so run them only when triggers changed.
 
+The fixture `evals/fixtures/todo-api/` is a NestJS app with its own `package.json` and `pnpm-lock.yaml`. Run `pnpm` only in a temporary copy of the fixture, never in the fixture directory or the repository root, so no `node_modules` or `dist` lands in the repository. After changing the fixture, confirm `pnpm install --frozen-lockfile` and `pnpm verify` pass in a fresh copy, and `node evals/run.mjs <skill> --dry-run` still plants every scenario.
+
 ## Verification
 
 Formatting is the only automated check. The repository has no `package.json`; do not run `pnpm install`, `npm install`, or other package-manager commands, because they create untracked `package.json`, lockfile, and `node_modules` artifacts.

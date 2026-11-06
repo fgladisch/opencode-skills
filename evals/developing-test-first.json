@@ -15,10 +15,10 @@
     "fixture": "todo-api",
     "query": "Add a `priority` field to todos: low, medium or high, defaulting to medium. It should be settable when creating and when updating a todo.",
     "expected_behavior": [
-      "Reads the existing tests in test/todos.test.js to follow their conventions before editing src/",
+      "Reads the existing tests in test/todos.spec.ts to follow their conventions before editing src/",
       "Adds tests for the default priority, setting it on create and on update, and rejecting invalid values, and runs them failing before editing src/",
-      "Implements the field in src/store.js and src/app.js with the smallest change that makes the tests pass",
-      "Runs the whole suite with npm test after the change and reports the result"
+      "Implements the field in the Todo type, DTOs, and TodosService with the smallest change that makes the tests pass",
+      "Runs pnpm verify (or at least pnpm test) after the change and reports the result"
     ]
   },
   {
@@ -28,8 +28,8 @@
     "expected_behavior": [
       "Writes tests for completed=true and completed=false (and ideally an invalid value) before editing src/",
       "Runs the new tests and shows they fail because the list is unfiltered, not because of a syntax error",
-      "Implements filtering with a minimal change and keeps unfiltered GET /todos behavior unchanged",
-      "Runs npm test green and reports the red evidence for each new test"
+      "Implements filtering with a minimal change (for example a query DTO or ParseBoolPipe in TodosController) and keeps unfiltered GET /todos behavior unchanged",
+      "Runs pnpm test green and reports the red evidence for each new test"
     ]
   }
 ]

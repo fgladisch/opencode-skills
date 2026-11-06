@@ -1,0 +1,4 @@
+# pnpm 10+ blocks dependency lifecycle scripts unless allow-listed here.
+allowBuilds:
+  "@nestjs/core": false # opencollective postinstall banner only
+  unrs-resolver: false # prebuilt binaries ship as optional dependencies

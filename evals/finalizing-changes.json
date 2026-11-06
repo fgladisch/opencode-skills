@@ -4,15 +4,15 @@
     "fixture": "todo-api",
     "setup": [
       "git checkout -qb feat/clear-all",
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js '    remove(id) {' '    clear() {\\n      todos.clear();\\n    },\\n\\n    remove(id) {'",
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js '      if (req.method === \"POST\") {' '      if (req.method === \"DELETE\") {\\n        store.clear();\\n        return send(res, 204);\\n      }\\n      if (req.method === \"POST\") {'",
-      "node \"$EVALS_DIR/replace.mjs\" test/todos.test.js 'describe(\"unknown routes\", () => {' 'describe(\"DELETE /todos\", () => {\\n  it(\"removes every todo\", async () => {\\n    await createTodo({ title: \"One\" });\\n    await createTodo({ title: \"Two\" });\\n    assert.equal((await request(\"DELETE\", \"/todos\")).status, 204);\\n    assert.deepEqual(await (await request(\"GET\", \"/todos\")).json(), []);\\n  });\\n});\\n\\ndescribe(\"unknown routes\", () => {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '  remove(id: string): void {' '  clear(): void {\\n    this.todos.clear();\\n  }\\n\\n  remove(id: string): void {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.controller.ts '  @Get(\":id\")' '  @Delete()\\n  @HttpCode(204)\\n  clear(): void {\\n    this.todosService.clear();\\n  }\\n\\n  @Get(\":id\")'",
+      "node \"$EVALS_DIR/replace.mjs\" test/todos.spec.ts '  it(\"returns 404 for unknown routes\"' '  describe(\"DELETE /todos\", () => {\\n    it(\"removes every todo\", async () => {\\n      await createTodo({ title: \"One\" });\\n      await createTodo({ title: \"Two\" });\\n      const server = app.getHttpServer();\\n      await request(server).delete(\"/todos\").expect(204);\\n      const res = await request(server).get(\"/todos\").expect(200);\\n      expect(res.body).toEqual([]);\\n    });\\n  });\\n\\n  it(\"returns 404 for unknown routes\"'",
       "node \"$EVALS_DIR/replace.mjs\" README.md '| DELETE | `/todos/:id` |                          |' '| DELETE | `/todos/:id` |                          |\\n| DELETE | `/todos`     |                          |'"
     ],
     "query": "Thanks, works now. I think we're done here, let's wrap this up.",
     "expected_behavior": [
       "Inspects branch, status, recent commits, and remotes, and notices the changes are uncommitted on feat/clear-all with no remote",
-      "Runs npm test fresh before presenting options",
+      "Runs pnpm verify fresh before presenting options",
       "Asks one question with only feasible outcomes (commit on feat/clear-all, merge locally after committing, keep as is) and does not offer a pull request without a remote",
       "Each option shows the branch, files, proposed message, and validation result, with a recommended choice",
       "Performs only the selected action"
@@ -23,33 +23,33 @@
     "fixture": "todo-api",
     "setup": [
       "git checkout -qb feat/clear-all",
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js '    remove(id) {' '    clear() {\\n      todos.clear();\\n    },\\n\\n    remove(id) {'",
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js '      if (req.method === \"POST\") {' '      if (req.method === \"DELETE\") {\\n        store.clear();\\n        return send(res, 204);\\n      }\\n      if (req.method === \"POST\") {'",
-      "node \"$EVALS_DIR/replace.mjs\" test/todos.test.js 'describe(\"unknown routes\", () => {' 'describe(\"DELETE /todos\", () => {\\n  it(\"removes every todo\", async () => {\\n    await createTodo({ title: \"One\" });\\n    await createTodo({ title: \"Two\" });\\n    assert.equal((await request(\"DELETE\", \"/todos\")).status, 204);\\n    assert.deepEqual(await (await request(\"GET\", \"/todos\")).json(), []);\\n  });\\n});\\n\\ndescribe(\"unknown routes\", () => {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '  remove(id: string): void {' '  clear(): void {\\n    this.todos.clear();\\n  }\\n\\n  remove(id: string): void {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.controller.ts '  @Get(\":id\")' '  @Delete()\\n  @HttpCode(204)\\n  clear(): void {\\n    this.todosService.clear();\\n  }\\n\\n  @Get(\":id\")'",
+      "node \"$EVALS_DIR/replace.mjs\" test/todos.spec.ts '  it(\"returns 404 for unknown routes\"' '  describe(\"DELETE /todos\", () => {\\n    it(\"removes every todo\", async () => {\\n      await createTodo({ title: \"One\" });\\n      await createTodo({ title: \"Two\" });\\n      const server = app.getHttpServer();\\n      await request(server).delete(\"/todos\").expect(204);\\n      const res = await request(server).get(\"/todos\").expect(200);\\n      expect(res.body).toEqual([]);\\n    });\\n  });\\n\\n  it(\"returns 404 for unknown routes\"'",
       "node \"$EVALS_DIR/replace.mjs\" README.md '| DELETE | `/todos/:id` |                          |' '| DELETE | `/todos/:id` |                          |\\n| DELETE | `/todos`     |                          |'",
       "git commit -qam '✨ feat: add clear-all endpoint'"
     ],
     "query": "This branch is done, let's get it into main.",
     "expected_behavior": [
       "Confirms the tree is clean and feat/clear-all is ahead of main",
-      "Runs npm test before merging",
+      "Runs pnpm verify before merging",
       "Merges feat/clear-all into main locally without force, after confirming the outcome if required",
-      "Validates the merged result on main with npm test and preserves the feat/clear-all branch"
+      "Validates the merged result on main with pnpm verify and preserves the feat/clear-all branch"
     ]
   },
   {
     "skills": ["finalizing-changes"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js '    remove(id) {' '    clear() {\\n      todos.clear();\\n    },\\n\\n    remove(id) {'",
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js '      if (req.method === \"POST\") {' '      if (req.method === \"DELETE\") {\\n        store.clear();\\n        return send(res, 204);\\n      }\\n      if (req.method === \"POST\") {'",
-      "node \"$EVALS_DIR/replace.mjs\" test/todos.test.js 'describe(\"unknown routes\", () => {' 'describe(\"DELETE /todos\", () => {\\n  it(\"removes every todo\", async () => {\\n    await createTodo({ title: \"One\" });\\n    await createTodo({ title: \"Two\" });\\n    assert.equal((await request(\"DELETE\", \"/todos\")).status, 204);\\n    assert.deepEqual(await (await request(\"GET\", \"/todos\")).json(), []);\\n  });\\n});\\n\\ndescribe(\"unknown routes\", () => {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '  remove(id: string): void {' '  clear(): void {\\n    this.todos.clear();\\n  }\\n\\n  remove(id: string): void {'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.controller.ts '  @Get(\":id\")' '  @Delete()\\n  @HttpCode(204)\\n  clear(): void {\\n    this.todosService.clear();\\n  }\\n\\n  @Get(\":id\")'",
+      "node \"$EVALS_DIR/replace.mjs\" test/todos.spec.ts '  it(\"returns 404 for unknown routes\"' '  describe(\"DELETE /todos\", () => {\\n    it(\"removes every todo\", async () => {\\n      await createTodo({ title: \"One\" });\\n      await createTodo({ title: \"Two\" });\\n      const server = app.getHttpServer();\\n      await request(server).delete(\"/todos\").expect(204);\\n      const res = await request(server).get(\"/todos\").expect(200);\\n      expect(res.body).toEqual([]);\\n    });\\n  });\\n\\n  it(\"returns 404 for unknown routes\"'",
       "node \"$EVALS_DIR/replace.mjs\" README.md '| DELETE | `/todos/:id` |                          |' '| DELETE | `/todos/:id` |                          |\\n| DELETE | `/todos`     |                          |'"
     ],
     "query": "Looks good, ship it.",
     "expected_behavior": [
       "Notices the finished change is uncommitted on main and that there is no remote to push to",
-      "Runs npm test before presenting outcomes",
+      "Runs pnpm verify before presenting outcomes",
       "Asks which feasible outcome to take, such as committing on main or a topic branch, instead of pushing or opening a pull request",
       "Does not push, force, or include unrelated files"
     ]

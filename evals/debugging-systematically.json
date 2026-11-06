@@ -3,46 +3,46 @@
     "skills": ["debugging-systematically"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js 'if (title !== undefined)' 'if (title)' 'if (completed !== undefined)' 'if (completed)'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts 'if (title !== undefined)' 'if (title)' 'if (completed !== undefined)' 'if (completed)'",
       "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: simplify todo update checks'"
     ],
     "query": "A teammate pushed a small refactor. Since then, when I uncheck a todo in the frontend it snaps back to done after a reload. Can you take a look?",
     "expected_behavior": [
       "Reproduces the symptom against the API (create, complete, then PATCH completed: false and GET) before changing code",
-      "Inspects the recent commit (git log / git show) and identifies the truthiness checks in store.update as the cause",
-      "States a falsifiable hypothesis and confirms it with evidence before editing src/store.js",
+      "Inspects the recent commit (git log / git show) and identifies the truthiness checks in TodosService.update as the cause",
+      "States a falsifiable hypothesis and confirms it with evidence before editing src/todos/todos.service.ts",
       "Adds a regression test for unchecking a todo that fails before the fix and passes after",
-      "Restores the !== undefined checks (also covering title) and re-runs the reproduction and npm test"
+      "Restores the !== undefined checks (also covering title) and re-runs the reproduction and pnpm verify"
     ]
   },
   {
     "skills": ["debugging-systematically"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/store.js 'title: title.trim(), completed' 'title, completed'",
+      "node \"$EVALS_DIR/replace.mjs\" src/todos/todos.service.ts '      title: this.cleanTitle(title),\\n' '      title,\\n'",
       "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: store titles as submitted'"
     ],
-    "query": "`npm test` started failing on main this morning, can you sort it out?",
+    "query": "`pnpm test` started failing on main this morning, can you sort it out?",
     "expected_behavior": [
-      "Runs npm test and reads the complete failure output before changing anything",
-      "Inspects recent commits and traces the failure to the teammate commit that stopped trimming titles in store.create",
-      "Fixes the source of the fault in src/store.js rather than weakening or deleting the failing test",
-      "Re-runs npm test and reports the root cause, the change, and the passing result"
+      "Runs pnpm test and reads the complete failure output before changing anything",
+      "Inspects recent commits and traces the failure to the teammate commit that stopped cleaning titles in TodosService.create",
+      "Fixes the source of the fault in src/todos/todos.service.ts rather than weakening or deleting the failing tests",
+      "Re-runs pnpm test (or pnpm verify) and reports the root cause, the change, and the passing result"
     ]
   },
   {
     "skills": ["debugging-systematically"],
     "fixture": "todo-api",
     "setup": [
-      "node \"$EVALS_DIR/replace.mjs\" src/app.js \"return JSON.parse(raw);\" 'return raw === \"\" ? undefined : JSON.parse(raw);' 'if (body === null || typeof body !== \"object\" || Array.isArray(body)) {' \"if (Array.isArray(body)) {\"",
-      "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: tolerate empty request bodies'"
+      "node \"$EVALS_DIR/replace.mjs\" src/app.module.ts '        transform: true,\\n' '        transform: true,\\n        skipMissingProperties: true,\\n'",
+      "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: skip validation of missing properties'"
     ],
     "query": "Creating a todo with an empty body returns a 500 now instead of a validation error.",
     "expected_behavior": [
-      "Reproduces the 500 with a request that has an empty body before editing code",
-      "Traces the crash to validate destructuring an undefined body after the latest refactor, citing the commit or stack trace",
+      "Reproduces the 500 with a POST /todos request that has an empty body before editing code",
+      "Traces the crash to skipMissingProperties in the ValidationPipe letting a missing title reach title.trim(), citing the latest commit or the stack trace",
       "Adds a regression test for an empty POST body expecting 400 that fails before the fix",
-      "Fixes the validation guard and re-runs the reproduction and npm test"
+      "Fixes the validation setup in src/app.module.ts and re-runs the reproduction and pnpm verify"
     ]
   }
 ]
