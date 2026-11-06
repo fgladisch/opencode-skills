@@ -1,6 +1,6 @@
 ---
 name: test-driven-development
-description: Use before the first production-code edit for any behavior change or bug fix.
+description: Use before writing any production code for a new app, project, feature, endpoint, behavior change, or bug fix, including greenfield work in an empty repository; the failing test comes first.
 metadata:
   opencode/autoinvoke: true
 ---

@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: Use before claiming work is complete, fixed, passing, reviewed, ready, committed, or integrated; match each material claim to fresh evidence.
+description: Required completion gate before the final report of every coding task, even when tests already pass; checks open Hunk review notes, todo and OpenSpec task lists, leftover background processes, and fresh evidence for each claim that work is done, fixed, passing, reviewed, ready, committed, or integrated.
 metadata:
   opencode/autoinvoke: true
 ---

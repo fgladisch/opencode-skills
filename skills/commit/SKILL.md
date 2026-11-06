@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Use when the user asks to commit, create a commit, stage and commit, or run git commit; follows repository conventions with gitmoji as the fallback.
+description: Use before every git commit, whether the user asked for it or you commit on your own as a checkpoint or as part of another workflow; follows repository conventions with gitmoji as the fallback.
 metadata:
   opencode/autoinvoke: true
 ---
