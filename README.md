@@ -40,14 +40,14 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ## Skills
 
-| Skill                         | When to use                                                                                                           |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `committing-changes`          | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback     |
-| `debugging-systematically`    | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis               |
-| `developing-test-first`       | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work         |
-| `finalizing-changes`          | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain                |
-| `reviewing-local-changes`     | When reviewing local code changes in a working tree, branch, commit, or defined file set; findings land as Hunk notes |
-| `verifying-before-completion` | As the completion gate before the final report of every coding task, even when tests already pass                     |
+| Skill                         | When to use                                                                                                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `committing-changes`          | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback                  |
+| `debugging-systematically`    | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis                            |
+| `developing-test-first`       | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work                      |
+| `finalizing-changes`          | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain, including wrap-up requests |
+| `reviewing-local-changes`     | When asked to review local changes in a working tree, branch, commit, or file set, or on a handoff; findings land as Hunk notes    |
+| `verifying-before-completion` | As the completion gate before the final report of every coding task, even when tests already pass                                  |
 
 ## Skill dependency graph
 

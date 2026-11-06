@@ -1,6 +1,6 @@
 ---
 name: verifying-before-completion
-description: Required completion gate before the final report of every coding task, even when tests already pass; checks open Hunk review notes, todo and OpenSpec task lists, leftover background processes, and fresh evidence for each claim that work is done, fixed, passing, reviewed, ready, committed, or integrated.
+description: Required completion gate that matches each claim that work is done, fixed, passing, reviewed, ready, committed, or integrated to fresh evidence, and checks open Hunk review notes, todo and OpenSpec task lists, and leftover background processes. Use before the final report of every coding task, even when tests already pass.
 metadata:
   opencode/autoinvoke: true
 ---
@@ -19,15 +19,13 @@ Before a material claim:
 4. Compare the result with every acceptance criterion and repository convention.
 5. State exactly what passed, failed, or could not run.
 
-Use the OpenCode tool that exercises the real boundary:
+Choose checks proportional to the change and risk, and run the changed path through its real entry point:
 
-- `shell` for focused tests, builds, type checks, linters, finite CLI smoke tests, and `gh` for pull request and issue state;
-- `shell` with `background: true` to start long-running services, with output in a log file you `read`;
-- the `browser` namespace through `execute`, when available, to exercise changed UI behavior and inspect the rendered result;
-- `read` to inspect generated artifacts and documents, and `webfetch` for URLs;
-- a scripted debugger run or stack dump through `shell` when the claim depends on runtime state that ordinary output cannot establish.
+- start long-running services with `shell` and `background: true`, writing output to a log file you `read`;
+- exercise changed UI behavior with the `browser` namespace through `execute` when it is available;
+- use a scripted debugger run or stack dump when the claim depends on runtime state that ordinary output cannot establish.
 
-Choose checks proportional to the change and risk. Run the changed path through its real entry point. Do not run an unrelated expensive suite solely as a ritual.
+Do not run an unrelated expensive suite solely as a ritual.
 
 ## Delegated work
 
@@ -51,7 +49,19 @@ Notes in a live Hunk session are requests from the user or other agents. Act on 
 
 ## Completion gate
 
-Confirm all acceptance items in the session's todo list are complete when one exists, and for an active OpenSpec change, every `tasks.md` item. If any item is blocked, report that work remains and do not claim completion. Confirm every open Hunk thread is handled or reported. Stop background processes you started, and confirm affected callsites, tests, documentation, and generated artifacts are updated or intentionally unchanged.
+Resolve every item before the final report:
+
+```
+Completion gate:
+- [ ] Each material claim matched to evidence observed after the final change
+- [ ] Every acceptance item in the session todo list complete, when one exists
+- [ ] Every `tasks.md` item checked and `openspec validate <name> --strict` passing (active OpenSpec change only)
+- [ ] Every open Hunk thread handled or reported
+- [ ] Background processes you started stopped
+- [ ] Affected callsites, tests, documentation, and generated artifacts updated or intentionally unchanged
+```
+
+If any item is blocked, report that work remains and do not claim completion.
 
 ## Reporting
 

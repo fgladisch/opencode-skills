@@ -2,6 +2,15 @@
 
 Replace every double-braced variable below before use.
 
+## Contents
+
+- Role, goal, success criteria, and constraints
+- Tools and routing
+- Resolve the active scope: variables, scope kinds, Hunk reload
+- Classify and dispatch: categories, subagent prompts, completion report
+- Evaluate and decide: note replies, P0-P3 severity
+- Output and stop rules
+
 ## Role
 
 Coordinate a delegated review of a defined code change. Focused subagents inspect the scope and post candidate findings to the live Hunk session; the main session evaluates those notes, replies with a decision in each thread, and returns one verified summary.

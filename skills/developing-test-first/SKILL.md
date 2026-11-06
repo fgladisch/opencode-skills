@@ -1,6 +1,6 @@
 ---
 name: developing-test-first
-description: Use before writing any production code for a new app, project, feature, endpoint, behavior change, or bug fix, including greenfield work in an empty repository; the failing test comes first.
+description: Drives code changes test-first; a focused test must fail for the intended reason before any production edit, then the smallest change makes it pass. Use before writing any production code for a new app, project, feature, endpoint, behavior change, or bug fix, including greenfield work in an empty repository.
 metadata:
   opencode/autoinvoke: true
 ---
@@ -20,9 +20,9 @@ Exempt preparation, such as a dependency bump or a configuration-only edit, may 
 ## Red
 
 1. Choose one externally meaningful behavior, boundary, invariant, transition, or regression.
-2. Find the repository's test conventions with `glob`, `grep`, and targeted `read` calls.
+2. Follow the repository's test conventions: location, naming, framework, and helpers.
 3. Add the smallest test that expresses the expected public behavior.
-4. Run the focused check with `shell` and confirm it fails for the intended reason. Syntax errors, missing dependencies, and unrelated failures do not establish red.
+4. Run the focused check and confirm it fails for the intended reason. Syntax errors, missing dependencies, and unrelated failures do not establish red.
 5. Note the test name and the failure message for the final report.
 
 For a service needed by the check, start it with `shell` and `background: true`, writing its output to a log file, rather than a detached `nohup` or `&` command. For browser-visible behavior, use the `browser` namespace through `execute` when it is available to establish the failing interaction when an automated test is not the right contract.
@@ -35,7 +35,7 @@ For an active change, the delta specs define the behaviors for Red. Each `#### S
 
 ## Green
 
-1. Make the smallest sufficient production change with `edit`.
+1. Make the smallest sufficient production change.
 2. For a cross-file symbol change, find every reference with `grep`, update them together, and confirm with the project's type checker or compiler.
 3. Run the focused check until it passes.
 4. Run broader checks proportional to regression risk.
@@ -43,7 +43,9 @@ For an active change, the delta specs define the behaviors for Red. Each `#### S
 
 ## Refactor
 
-Refactor only while checks remain green. Use the repository's codemod tooling through `shell` for structural rewrites that would be unsafe as text replacement, and review its diff before keeping it.
+Refactor only while checks remain green. Use the repository's codemod tooling for structural rewrites that would be unsafe as text replacement, and review its diff before keeping it.
+
+Then return to Red for the next behavior until every intended behavior has a passing test.
 
 Tests must be deterministic, isolated, and resistant to implementation-only changes. Prefer real collaborators when cheap and reliable; use fakes or mocks only at slow, unstable, destructive, or external boundaries. Do not add production APIs solely for tests.
 

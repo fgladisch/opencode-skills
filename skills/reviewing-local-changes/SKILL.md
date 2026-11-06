@@ -1,6 +1,6 @@
 ---
 name: reviewing-local-changes
-description: Use when reviewing local code changes in a working tree, branch, commit, or defined file set; records findings and decisions as notes in a live Hunk session.
+description: Reviews local code changes through focused review subagents and records every finding and decision as a note thread in a live Hunk session. Use when the user asks to review local changes in a working tree, branch, commit, or defined file set, or when another skill hands off a review.
 metadata:
   opencode/autoinvoke: true
 ---
@@ -76,6 +76,17 @@ A thread's state is decided by its latest reply. A root without replies is open,
 - Agent notes start hidden. Pass `--focus` only on the main session's first reply of a review so the user sees agent notes; review subagents never pass `--focus`, `navigate`, or `highlight`.
 
 ## Workflow
+
+Track progress with this checklist:
+
+```
+Review progress:
+- [ ] Active scope resolved and loaded in the Hunk session
+- [ ] One review subagent dispatched per populated category
+- [ ] Every candidate note and open user note has a decision reply
+- [ ] Accepted fixes applied with `Fixed:` replies (only when fixes were requested)
+- [ ] Verified and summarized
+```
 
 ### 1. Review the change
 

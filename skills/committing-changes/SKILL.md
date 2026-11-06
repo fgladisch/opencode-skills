@@ -1,6 +1,6 @@
 ---
 name: committing-changes
-description: Use before every git commit, whether the user asked for it or you commit on your own as a checkpoint or as part of another workflow; follows repository conventions with gitmoji as the fallback.
+description: Creates one intentional git commit from the intended files, following repository commit conventions with gitmoji as the fallback. Use before every git commit, whether the user asked for it or the agent commits on its own as a checkpoint or as part of another workflow.
 metadata:
   opencode/autoinvoke: true
 ---
@@ -11,12 +11,14 @@ Create one intentional commit from an evidence-backed file set and message.
 
 ## Prepare
 
-1. Use `read` for repository commit instructions and `shell` for recent commit subjects.
+1. Read the repository's commit instructions and recent commit subjects.
 2. Inspect `git status --short`, `git diff`, and `git diff --cached`.
 3. Stop if there are no changes. Preserve unrelated user changes and split unrelated concerns.
 4. Run validation proportional to the selected files unless the user explicitly requested a no-verify workflow.
 
-Follow the repository's commit format. If none exists, use `<gitmoji> <type>: <description>` with a concise subject:
+## Write the message
+
+Follow the repository's commit format. If none exists, use `<gitmoji> <type>: <description>` with a concise, imperative subject:
 
 | Change                 | Fallback       |
 | ---------------------- | -------------- |
@@ -28,6 +30,15 @@ Follow the repository's commit format. If none exists, use `<gitmoji> <type>: <d
 | Removal                | `🔥 remove:`   |
 | Tooling or maintenance | `🔧 chore:`    |
 
+Fallback examples:
+
+| Change set                                                         | Message                                                 |
+| ------------------------------------------------------------------ | ------------------------------------------------------- |
+| New CRUD endpoints for todos backed by an in-memory store          | `✨ feat: add todo CRUD endpoints with in-memory store` |
+| Unchecking a todo was ignored because updates dropped `false`      | `🐛 fix: persist completed=false in todo updates`       |
+| A regression test for the uncheck path, without production changes | `✅ test: cover unchecking a completed todo`            |
+| `package.json`, lockfile, and `.gitignore` for a new project       | `🔧 chore: scaffold Node.js project`                    |
+
 ## Resolve ambiguity
 
 The user's commit request authorizes committing the intended change, not unrelated files, hook bypasses, amendments, or pushes. Infer the file set and message from the completed task and repository conventions.
@@ -36,7 +47,7 @@ Use the `question` tool only when materially different file groupings or message
 
 ## Commit
 
-Stage specific paths with `shell`. Do not use `git add .` or `git add -A` unless the whole working tree is explicitly in scope. Create the commit without interactive flags, then inspect the new commit and `git status --short`.
+Stage specific paths. Do not use `git add .` or `git add -A` unless the whole working tree is explicitly in scope. Create the commit without interactive flags, then inspect the new commit and `git status --short`.
 
 If a hook fails, report the complete failure and leave the commit uncreated. Fix hook failures only when the original request authorizes those edits. Never bypass hooks, amend, push, add attribution, or broaden the file set without explicit authorization.
 
