@@ -106,4 +106,4 @@ If the user requested fixes or cleanup, apply only accepted in-scope corrections
 
 ## Validate
 
-Apply `verification-before-completion`, including its Hunk note check, before reporting review conclusions or accepted fixes. In an inspection-only review, `Accepted:` threads are the review result: report them instead of fixing them.
+Load the `verification-before-completion` skill, including its Hunk note check, before reporting review conclusions or accepted fixes. In an inspection-only review, `Accepted:` threads are the review result: report them instead of fixing them.

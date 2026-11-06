@@ -40,4 +40,4 @@ Stage specific paths with `shell`. Do not use `git add .` or `git add -A` unless
 
 If a hook fails, report the complete failure and leave the commit uncreated. Fix hook failures only when the original request authorizes those edits. Never bypass hooks, amend, push, add attribution, or broaden the file set without explicit authorization.
 
-Apply `verification-before-completion` before reporting the commit created.
+Load the `verification-before-completion` skill before reporting the commit created.
