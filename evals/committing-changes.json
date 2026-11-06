@@ -19,11 +19,15 @@
   },
   {
     "skills": ["committing-changes"],
-    "fixture": "todo-api",
     "query": "Add a `dueDate` field to todos. It is optional and should be an ISO date string.",
+    "fixture": "todo-api",
+    "setup": [
+      "printf \"%s\\n\" \"# Agent instructions\" \"\" \"- Commit each finished, passing change before reporting back. Do not leave completed work uncommitted.\" \"- Never push.\" > AGENTS.md",
+      "git add AGENTS.md && git commit -qm \"📝 docs: add agent instructions\""
+    ],
     "expected_behavior": [
       "Implements and tests the dueDate field in the DTOs, Todo type, and service, including rejecting invalid date strings",
-      "Commits the finished work on its own as a checkpoint, without being asked, after pnpm verify (or at least pnpm test) passes",
+      "Commits the finished work on its own, as the project AGENTS.md asks, without being asked in the prompt, after pnpm verify (or at least pnpm test) passes",
       "Uses a gitmoji conventional message matching the existing history, such as \"✨ feat: …\"",
       "Stages only the files it changed and does not push"
     ]
