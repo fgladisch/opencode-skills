@@ -1,0 +1,35 @@
+[
+  {
+    "skills": ["developing-test-first"],
+    "query": "Create a simple todo REST API in Node.js: a todo controller with CRUD endpoints (list, get, create, update, delete) backed by an in-memory store.",
+    "expected_behavior": [
+      "Sets up a test runner (for example node:test) before writing any controller or store code",
+      "Writes a test for the first endpoint, runs it, and shows it failing for the intended reason before implementing that endpoint",
+      "Repeats the red-green cycle for each CRUD operation instead of implementing all endpoints first",
+      "Runs the full test suite green at the end and smoke-tests the API through its real entry point",
+      "Final report names the tests observed failing before their production change and the failure reasons"
+    ]
+  },
+  {
+    "skills": ["developing-test-first"],
+    "fixture": "todo-api",
+    "query": "Add a `priority` field to todos: low, medium or high, defaulting to medium. It should be settable when creating and when updating a todo.",
+    "expected_behavior": [
+      "Reads the existing tests in test/todos.test.js to follow their conventions before editing src/",
+      "Adds tests for the default priority, setting it on create and on update, and rejecting invalid values, and runs them failing before editing src/",
+      "Implements the field in src/store.js and src/app.js with the smallest change that makes the tests pass",
+      "Runs the whole suite with npm test after the change and reports the result"
+    ]
+  },
+  {
+    "skills": ["developing-test-first"],
+    "fixture": "todo-api",
+    "query": "Can you make `GET /todos` support filtering by status, like `GET /todos?completed=true` or `?completed=false`?",
+    "expected_behavior": [
+      "Writes tests for completed=true and completed=false (and ideally an invalid value) before editing src/",
+      "Runs the new tests and shows they fail because the list is unfiltered, not because of a syntax error",
+      "Implements filtering with a minimal change and keeps unfiltered GET /todos behavior unchanged",
+      "Runs npm test green and reports the red evidence for each new test"
+    ]
+  }
+]

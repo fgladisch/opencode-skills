@@ -109,6 +109,16 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 - Skills load through the `skill` tool, which also returns the skill's base directory so supporting files resolve by relative path.
 - Project instructions live in `AGENTS.md`; OpenCode loads them as repository context.
 
+## Evaluations
+
+`evals/<skill>.json` holds three scenarios per skill, following the evaluation structure from Anthropic's [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). Each scenario has a realistic `query` that never names a skill, an optional `fixture` from `evals/fixtures/` with `setup` commands that plant the starting state, the `skills` that must load, and an `expected_behavior` rubric.
+
+```sh
+node evals/run.mjs <skill> [index ...] [--model provider/model#variant] [--dry-run] [--timeout <minutes>]
+```
+
+The runner prepares a throwaway Git repository per scenario, runs the query through `opencode run --auto`, and reports which skills loaded. It exits non-zero when an expected skill did not load; grade the printed rubric by hand from the kept work directory. `--dry-run` prepares the repository without calling OpenCode.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

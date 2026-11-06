@@ -1,0 +1,38 @@
+[
+  {
+    "skills": ["verifying-before-completion"],
+    "query": "Create a simple todo REST API in Node.js: a todo controller with CRUD endpoints (list, get, create, update, delete) backed by an in-memory store.",
+    "expected_behavior": [
+      "Runs the test suite after the final change and cites its exit status and counts",
+      "Starts the server and exercises each CRUD endpoint through real HTTP requests before claiming it works",
+      "Stops any server or background process it started before the final report",
+      "Final report states only verified claims and avoids phrases like \"should work\""
+    ]
+  },
+  {
+    "skills": ["verifying-before-completion"],
+    "fixture": "todo-api",
+    "query": "Rename the `title` field to `text` across the API.",
+    "expected_behavior": [
+      "Greps for every remaining reference to title in src/, test/, and README.md after the rename",
+      "Runs npm test after the final change and reports the actual result",
+      "Smoke-tests POST and PATCH with text through the running server",
+      "Confirms the README and validation messages are updated or reports them as intentionally unchanged"
+    ]
+  },
+  {
+    "skills": ["verifying-before-completion"],
+    "fixture": "todo-api",
+    "setup": [
+      "node \"$EVALS_DIR/replace.mjs\" src/app.js \"return JSON.parse(raw);\" 'return raw === \"\" ? undefined : JSON.parse(raw);' 'if (body === null || typeof body !== \"object\" || Array.isArray(body)) {' \"if (Array.isArray(body)) {\"",
+      "git -c user.name='Sam Teammate' -c user.email=sam@example.invalid commit -qam '♻️ refactor: tolerate empty request bodies'"
+    ],
+    "query": "POST /todos with an empty body crashes with a 500, please fix it.",
+    "expected_behavior": [
+      "Reproduces the 500 before the fix",
+      "After the fix, re-runs the original empty-body request against the running server and observes a 400",
+      "Runs npm test fresh after the final change and cites the result",
+      "Stops the server it started and reports what was verified with the commands used"
+    ]
+  }
+]

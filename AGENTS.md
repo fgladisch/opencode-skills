@@ -33,6 +33,22 @@ If any of those checks fail, fix `README.md` (or the skill) before considering t
 - Frontmatter also sets `metadata.opencode/autoinvoke` explicitly. Use `true` so the model sees the skill in its available list, or `false` to hide it so it loads only when invoked by ID.
 - Supporting files (references, templates, examples) live alongside `SKILL.md` in the same directory and are referenced by relative path.
 
+## Skill authoring
+
+Follow Anthropic's [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices):
+
+- Name skills in gerund form (`committing-changes`, `debugging-systematically`): lowercase letters, numbers, and hyphens, at most 64 characters.
+- Write the description in third person: first what the skill does, then `Use when …` or `Use before …` with the concrete triggers. Do not address the model as "you"; stay under 1,024 characters.
+- Add only what the model does not already know. Do not explain how to read files or run commands; keep tool guidance for non-obvious routing, such as `shell` with `background: true` for services or the `browser` namespace through `execute`.
+- Keep `SKILL.md` under 500 lines. Move conditional detail into a supporting file linked directly from `SKILL.md`, never from another supporting file. Start supporting files longer than 100 lines with a `## Contents` list.
+- Give multi-step workflows a short progress checklist, and close validation steps with an explicit loop back to the fix.
+- Use concrete examples where output quality depends on style, such as commit messages and pull request bodies.
+- Refer to another skill as "Load the `<skill-id>` skill" so the model treats it as a skill load rather than a tool or concept.
+
+## Evaluations
+
+Every skill has `evals/<skill-name>.json` with at least three scenarios. A scenario's `query` is a realistic user prompt that never names a skill. When adding, renaming, or removing a skill, update its eval file in the same change. After changing a description or a trigger, run the affected scenarios with `node evals/run.mjs <skill-name>` and report which expected skills loaded. Runs call `opencode run` and take minutes each, so run them only when triggers changed.
+
 ## Verification
 
 Formatting is the only automated check. The repository has no `package.json`; do not run `pnpm install`, `npm install`, or other package-manager commands, because they create untracked `package.json`, lockfile, and `node_modules` artifacts.
