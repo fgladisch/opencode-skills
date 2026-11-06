@@ -41,7 +41,6 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 | Skill                            | When to use                                                                                                           |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `analyze-youtube-video`          | When the user shares a YouTube URL or asks what a video says; fetches only its transcript with yt-dlp for analysis    |
 | `commit`                         | When the user asks to commit changes; follows repository conventions with gitmoji as the fallback                     |
 | `finalizing-changes`             | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain                |
 | `local-code-review`              | When reviewing local code changes in a working tree, branch, commit, or defined file set; findings land as Hunk notes |
