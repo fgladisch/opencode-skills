@@ -118,8 +118,10 @@ function runOpencode(dir, title, query, { model, timeout }) {
   if (model) args.push("--model", model);
   args.push(query);
   return new Promise((resolve) => {
+    // OpenCode resolves the project from PWD, which spawn does not update with cwd.
     const child = spawn("opencode", args, {
       cwd: dir,
+      env: { ...process.env, PWD: dir },
       stdio: ["ignore", "pipe", "inherit"],
     });
     let stdout = "";
