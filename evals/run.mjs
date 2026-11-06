@@ -9,8 +9,8 @@ import { fileURLToPath } from "node:url";
 
 const EVALS_DIR = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURES_DIR = path.join(EVALS_DIR, "fixtures");
-// Greenfield scenarios build a whole API test-first; observed runs take 10-20 minutes,
-// so 30 leaves headroom without letting a stuck session run forever.
+// Greenfield scenarios build a whole API test-first in about 3 minutes; 30 leaves headroom
+// for slower models without letting a stuck session run forever.
 const DEFAULT_TIMEOUT_MINUTES = 30;
 // Enough to read the final report without flooding the terminal.
 const MAX_TEXT_CHARS = 1500;
