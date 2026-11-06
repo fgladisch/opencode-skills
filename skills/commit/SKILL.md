@@ -1,6 +1,8 @@
 ---
 name: commit
 description: Use when the user asks to commit, create a commit, stage and commit, or run git commit; follows repository conventions with gitmoji as the fallback.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Commit

@@ -1,6 +1,8 @@
 ---
 name: systematic-debugging
 description: Use when a bug, failing test, build failure, performance regression, or other unexpected behavior needs diagnosis before a fix is proposed.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Systematic Debugging

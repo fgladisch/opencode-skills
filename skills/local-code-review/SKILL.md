@@ -1,6 +1,8 @@
 ---
 name: local-code-review
 description: Use when reviewing local code changes in a working tree, branch, commit, or defined file set; records findings and decisions as notes in a live Hunk session.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Local Code Review

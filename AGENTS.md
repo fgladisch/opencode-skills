@@ -30,6 +30,7 @@ If any of those checks fail, fix `README.md` (or the skill) before considering t
 
 - Each skill lives in its own directory: `skills/<skill-name>/SKILL.md`. The directory name is the skill ID; frontmatter `name` is only a display label, so keep them identical.
 - `SKILL.md` starts with YAML frontmatter containing `name` and `description`. OpenCode shows the description to the model to decide when to load the skill, and does not advertise skills without one, so keep it precise and trigger-oriented.
+- Frontmatter also sets `metadata.opencode/autoinvoke` explicitly. Use `true` so the model sees the skill in its available list, or `false` to hide it so it loads only when invoked by ID.
 - Supporting files (references, templates, examples) live alongside `SKILL.md` in the same directory and are referenced by relative path.
 
 ## Verification

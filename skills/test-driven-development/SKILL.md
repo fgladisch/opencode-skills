@@ -1,6 +1,8 @@
 ---
 name: test-driven-development
 description: Use before the first production-code edit for any behavior change or bug fix.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Test-Driven Development

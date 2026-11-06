@@ -1,6 +1,8 @@
 ---
 name: verification-before-completion
 description: Use before claiming work is complete, fixed, passing, reviewed, ready, committed, or integrated; match each material claim to fresh evidence.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Verification Before Completion

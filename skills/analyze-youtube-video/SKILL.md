@@ -1,6 +1,8 @@
 ---
 name: analyze-youtube-video
 description: Use when the user shares a YouTube video URL or asks to summarize, quote, search, fact-check, or answer questions about what is said in a YouTube video; fetches only the transcript with yt-dlp.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Analyze YouTube Video

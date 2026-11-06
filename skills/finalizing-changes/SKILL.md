@@ -1,6 +1,8 @@
 ---
 name: finalizing-changes
 description: Use when a coherent set of changes is complete and needs to be validated, committed, merged, published as a pull request, or retained, whether the changes are uncommitted or already on a branch.
+metadata:
+  opencode/autoinvoke: true
 ---
 
 # Finalizing Changes
