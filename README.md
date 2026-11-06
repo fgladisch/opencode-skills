@@ -117,7 +117,7 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 node evals/run.mjs <skill> [index ...] [--model provider/model#variant] [--dry-run] [--timeout <minutes>]
 ```
 
-The fixture `evals/fixtures/todo-api/` is a TypeScript NestJS todo API; `pnpm verify` runs its typecheck, lint, format check, tests, and build. The runner prepares a throwaway Git repository per scenario, installs fixture dependencies with `pnpm install --frozen-lockfile` (pnpm is required), runs the query through `opencode run --auto`, and reports which skills loaded. It exits non-zero when an expected skill did not load; grade the printed rubric by hand from the kept work directory. `--dry-run` prepares the repository without calling OpenCode.
+The fixture `evals/fixtures/todo-api/` is a TypeScript NestJS todo API; `pnpm verify` runs its typecheck, lint, format check, tests, and build. The runner prepares a throwaway Git repository per scenario, installs fixture dependencies with `pnpm install --frozen-lockfile` (pnpm is required), runs the query through `opencode run --auto`, and reports which skills loaded. Runs never see your global `~/.config/opencode/AGENTS.md`, so they measure what the skill descriptions trigger on their own: each run uses a private server (`--standalone`) whose config home mirrors yours without that file. It exits non-zero when an expected skill did not load; grade the printed rubric by hand from the kept work directory. `--dry-run` prepares the repository without calling OpenCode.
 
 ## License
 

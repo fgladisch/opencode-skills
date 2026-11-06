@@ -125,15 +125,56 @@ function prepare(skill, index, scenario) {
   return dir;
 }
 
-function runOpencode(dir, title, query, { model, timeout }) {
+// Evals measure the skills without the user's global AGENTS.md, which may name them.
+// OpenCode has no switch for that file, so this mirrors the XDG config home
+// through symlinks, leaving out only opencode/AGENTS.md. Skills, agents, providers, and
+// other tools' configuration (git, gh, pnpm) stay as they are.
+function isolatedConfigHome() {
+  const source =
+    process.env.XDG_CONFIG_HOME ?? path.join(os.homedir(), ".config");
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "skill-eval-config-"));
+  for (const entry of fs.readdirSync(source)) {
+    if (entry !== "opencode")
+      fs.symlinkSync(path.join(source, entry), path.join(home, entry));
+  }
+  const opencodeDir = path.join(home, "opencode");
+  fs.mkdirSync(opencodeDir);
+  for (const entry of fs.readdirSync(path.join(source, "opencode"))) {
+    if (entry !== "AGENTS.md")
+      fs.symlinkSync(
+        path.join(source, "opencode", entry),
+        path.join(opencodeDir, entry),
+      );
+  }
+  return home;
+}
+
+// Unlinks the symlinks without following them, so the real configuration is never touched.
+function removeConfigHome(home) {
+  const opencodeDir = path.join(home, "opencode");
+  for (const entry of fs.readdirSync(opencodeDir))
+    fs.unlinkSync(path.join(opencodeDir, entry));
+  fs.rmdirSync(opencodeDir);
+  for (const entry of fs.readdirSync(home))
+    fs.unlinkSync(path.join(home, entry));
+  fs.rmdirSync(home);
+}
+
+function runOpencode(dir, title, query, { model, timeout, configHome }) {
   const args = ["run", "--auto", "--format", "json", "--title", title];
+  // The shared background service reads the real config; a private server reads configHome.
+  if (configHome) args.push("--standalone");
   if (model) args.push("--model", model);
   args.push(query);
   return new Promise((resolve) => {
     // OpenCode resolves the project from PWD, which spawn does not update with cwd.
     const child = spawn("opencode", args, {
       cwd: dir,
-      env: { ...process.env, PWD: dir },
+      env: {
+        ...process.env,
+        PWD: dir,
+        ...(configHome && { XDG_CONFIG_HOME: configHome }),
+      },
       stdio: ["ignore", "pipe", "inherit"],
     });
     let stdout = "";
@@ -199,6 +240,7 @@ async function main() {
       fail(`${args.skill} has scenarios 0-${scenarios.length - 1}, got ${i}`);
   }
 
+  const configHome = args.dryRun ? undefined : isolatedConfigHome();
   let failed = false;
   for (const i of indexes) {
     const scenario = scenarios[i];
@@ -224,7 +266,7 @@ async function main() {
       dir,
       `skill-eval ${args.skill} #${i}`,
       scenario.query,
-      args,
+      { ...args, configHome },
     );
     const { sessionID, skills, lastText } = parseEvents(run.stdout);
     if (run.error) console.log(`OpenCode failed to start: ${run.error}`);
@@ -242,6 +284,7 @@ async function main() {
       `Last assistant text:\n${truncate(lastText, MAX_TEXT_CHARS) || "(none)"}`,
     );
   }
+  if (configHome) removeConfigHome(configHome);
   process.exit(failed ? 1 : 0);
 }
 
