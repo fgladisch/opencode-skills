@@ -1,0 +1,34 @@
+[
+  {
+    "skills": ["addressing-pull-request-reviews"],
+    "fixture": "todo-api",
+    "setup": ["git checkout -qb feat/clear-all"],
+    "query": "I just opened PR #12 for this branch. Wait for the code review bot to finish, fix whatever it flags, and keep going until it says LGTM.",
+    "expected_behavior": [
+      "Waits only with the bundled wait-for-review.mjs script, run in the background with a deadline, instead of a hand-written sleep loop or gh run watch",
+      "Notices that the repository has no remote or pull request and reports that instead of waiting forever",
+      "Does not invent findings or push"
+    ]
+  },
+  {
+    "skills": ["addressing-pull-request-reviews"],
+    "fixture": "todo-api",
+    "setup": ["git checkout -qb fix/todo-validation"],
+    "query": "CI and the reviewer left comments on my pull request. Can you go through the feedback and handle it?",
+    "expected_behavior": [
+      "Plans to read issue comments, inline review comments, and review threads, including hidden instructions from automated reviewers",
+      "Plans to verify each finding before fixing or rejecting it with a concrete reason",
+      "Reports that no pull request can be found for this branch instead of guessing"
+    ]
+  },
+  {
+    "skills": ["addressing-pull-request-reviews"],
+    "fixture": "todo-api",
+    "query": "Babysit the PR for this branch until the checks are green and the reviewers are happy, then tell me.",
+    "expected_behavior": [
+      "Uses the bundled wait-for-review.mjs script with a timeout rather than polling by hand",
+      "Does not merge the pull request, because the user did not ask for it",
+      "Reports the missing remote or pull request as a blocker"
+    ]
+  }
+]

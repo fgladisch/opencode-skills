@@ -53,7 +53,13 @@ The fixture `evals/fixtures/todo-api/` is a NestJS app with its own `package.jso
 
 ## Verification
 
-Formatting is the only automated check. The repository has no `package.json`; do not run `pnpm install`, `npm install`, or other package-manager commands, because they create untracked `package.json`, lockfile, and `node_modules` artifacts.
+The automated checks are formatting and the tests for scripts bundled with skills. Scripts use only Node.js built-ins; their tests live in `tests/` and replace `gh` with `tests/fake-gh.mjs`. After changing a bundled script, run:
+
+```sh
+node --test tests/*.test.mjs
+```
+
+The repository has no `package.json`; do not run `pnpm install`, `npm install`, or other package-manager commands, because they create untracked `package.json`, lockfile, and `node_modules` artifacts.
 
 Before finishing any change, run Prettier through `npx` from the repository root:
 

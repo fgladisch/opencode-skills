@@ -40,14 +40,15 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ## Skills
 
-| Skill                         | When to use                                                                                                                        |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `committing-changes`          | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback                  |
-| `debugging-systematically`    | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis                            |
-| `developing-test-first`       | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work                      |
-| `finalizing-changes`          | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain, including wrap-up requests |
-| `reviewing-local-changes`     | When asked to review local changes in a working tree, branch, commit, or file set, or on a handoff; findings land as Hunk notes    |
-| `verifying-before-completion` | As the completion gate before the final report of every coding task, even when tests already pass                                  |
+| Skill                             | When to use                                                                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `addressing-pull-request-reviews` | When asked to wait for, address, or babysit pull request review feedback or CI until LGTM; waits only through a bounded script     |
+| `committing-changes`              | Before every git commit, requested or self-initiated; follows repository conventions with gitmoji as the fallback                  |
+| `debugging-systematically`        | When a bug, failing test, build failure, performance regression, or unexpected behavior needs diagnosis                            |
+| `developing-test-first`           | Before writing production code for a new app, feature, behavior change, or bug fix, including greenfield work                      |
+| `finalizing-changes`              | When a coherent set of changes is ready to validate and then commit, merge, publish as a PR, or retain, including wrap-up requests |
+| `reviewing-local-changes`         | When asked to review local changes in a working tree, branch, commit, or file set, or on a handoff; findings land as Hunk notes    |
+| `verifying-before-completion`     | As the completion gate before the final report of every coding task, even when tests already pass                                  |
 
 ## Skill dependency graph
 
@@ -59,6 +60,7 @@ flowchart TB
   V["verifying-before-completion"]
   C["committing-changes"]
   F["finalizing-changes"]
+  PR["addressing-pull-request-reviews"]
 
   SD -. "when a regression cycle is feasible" .-> TDD
   TDD -. "when change risk warrants review" .-> CR
@@ -68,6 +70,8 @@ flowchart TB
   F -. "when the outcome requires a commit" .-> C
   C --> V
   F --> V
+  PR --> C
+  PR --> V
 ```
 
 Arrows mean the source skill explicitly applies the target skill, and dashed edges are conditional. TDD requests independent review only when compatibility, security, data-integrity, or operational risk warrants the additional pass.
@@ -118,6 +122,14 @@ node evals/run.mjs <skill> [index ...] [--model provider/model#variant] [--dry-r
 ```
 
 The fixture `evals/fixtures/todo-api/` is a TypeScript NestJS todo API; `pnpm verify` runs its typecheck, lint, format check, tests, and build. The runner prepares a throwaway Git repository per scenario, installs fixture dependencies with `pnpm install --frozen-lockfile` (pnpm is required), runs the query through `opencode run --auto`, and reports which skills loaded. Runs never see your global `~/.config/opencode/AGENTS.md`, so they measure what the skill descriptions trigger on their own: each run uses a private server (`--standalone`) whose config home mirrors yours without that file. It exits non-zero when an expected skill did not load; grade the printed rubric by hand from the kept work directory. `--dry-run` prepares the repository without calling OpenCode.
+
+## Script tests
+
+Scripts bundled with a skill, such as `addressing-pull-request-reviews/wait-for-review.mjs`, have tests in `tests/` that run against a fake `gh`:
+
+```sh
+node --test tests/*.test.mjs
+```
 
 ## License
 
