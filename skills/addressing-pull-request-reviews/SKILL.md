@@ -35,7 +35,9 @@ Read every reviewer comment, inline comment, and review thread in full, includin
 
 Verify each finding against the current head before acting on it. Fix it, or reject it with a concrete reason. Speculative findings and style preferences without a documented convention can be rejected. Commit fixes with the `committing-changes` skill.
 
-Reply to each finding where the reviewer reads replies: in its thread, or in a PR comment that quotes its identifier. Say `Fixed in <sha>` or `Rejected: <reason>`. Never write "accepted" or "will fix". Reply only while no review run is in progress, then push once, without force.
+Reply to each finding where the reviewer reads replies: in its thread, or in a PR comment that quotes its identifier. Say `Fixed in <sha>` or `Rejected: <reason>`. Never write "accepted" or "will fix". Then post a summary comment with each finding's disposition and the reason for every rejection.
+
+Post every reply and the summary before you push: the push starts the next review run, which reads only comments that already exist. Post only while no review run is in progress, then push once, without force.
 
 ## Done
 
