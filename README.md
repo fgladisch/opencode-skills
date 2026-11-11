@@ -26,10 +26,10 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ## Commands
 
-| Command              | Purpose                                                                                             |
-| -------------------- | --------------------------------------------------------------------------------------------------- |
-| `local-review-cycle` | Review local changes in Hunk and apply fixes until LGTM                                             |
-| `pr`                 | Validate the work, publish it as a pull request, and address its review, skipping optional findings |
+| Command              | Purpose                                                                                                              |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `local-review-cycle` | Review local changes in Hunk and apply fixes until LGTM                                                              |
+| `pr`                 | When the work is done, validate it, publish it as a pull request, and address its review, skipping optional findings |
 
 ## Agents
 
