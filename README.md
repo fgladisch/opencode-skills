@@ -26,10 +26,10 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ## Commands
 
-| Command              | Purpose                                                 |
-| -------------------- | ------------------------------------------------------- |
-| `local-review-cycle` | Review local changes in Hunk and apply fixes until LGTM |
-| `pr`                 | Validate the work and publish it as a pull request      |
+| Command              | Purpose                                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| `local-review-cycle` | Review local changes in Hunk and apply fixes until LGTM                                             |
+| `pr`                 | Validate the work, publish it as a pull request, and address its review, skipping optional findings |
 
 ## Agents
 
@@ -98,7 +98,7 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 2. `@openspec-propose <idea>` to create the change; review and edit its artifacts.
 3. Create the topic branch, then `@openspec-apply-change` to implement the tasks.
 4. `/local-review-cycle` or `reviewing-local-changes` to review the result.
-5. `finalizing-changes` or `/pr` to publish it, then `addressing-pull-request-reviews` to address the pull request review.
+5. `/pr` to publish it and address the pull request review, or `finalizing-changes` followed by `addressing-pull-request-reviews`.
 6. After the merge, `@openspec-archive-change` on the base branch to merge the delta specs into `openspec/specs/`, then commit the result.
 
 ## OpenCode tooling
