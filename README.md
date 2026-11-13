@@ -65,7 +65,8 @@ flowchart TB
   PR["addressing-pull-request-reviews"]
   OA["openspec-archive-change"]
 
-  OE --> OP --> OAC --> TDD --> V --> F --> PR
+  OE --> OP --> OAC --> TDD --> V --> F
+  F -- "pull request opened" --> PR
   SD -. "when a regression cycle is feasible" .-> TDD
   SD -. "otherwise" .-> V
   TDD -. "when change risk warrants review" .-> CR
