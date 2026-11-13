@@ -1,6 +1,8 @@
 # opencode-workflow
 
-A personal skills, command, and agent library for [OpenCode](https://opencode.ai). The content targets OpenCode's built-in tool surface and execution workflows.
+My spec-driven workflow for [OpenCode](https://opencode.ai): a set of skills and commands that take a change from an open idea to an approved pull request. The agent plans before it codes, proves its work with tests and fresh evidence, and stays with the change through review and CI.
+
+A change starts in [OpenSpec](https://github.com/Fission-AI/OpenSpec), where the agent turns the idea into a proposal, delta specs with WHEN/THEN scenarios, and a task list. It implements each task test-first, so every scenario becomes a failing test before the code that makes it pass. Changes with compatibility, security, data-integrity, or operational risk get a second look from review subagents, which leave their findings as notes in a live [Hunk](https://github.com/modem-dev/hunk) diff session. Before the agent reports the work done, it matches every claim to fresh evidence. It then commits in small steps that follow the repository's conventions, opens the pull request, and works through review comments and CI until the reviewer approves. After the merge, it archives the OpenSpec change so the specs reflect what shipped.
 
 ## Installation
 
