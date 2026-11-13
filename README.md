@@ -49,37 +49,33 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 | `reviewing-local-changes`         | When asked to review local changes in a working tree, branch, commit, or file set, or on a handoff; findings land as Hunk notes    |
 | `verifying-before-completion`     | As the completion gate before the final report of every coding task, even when tests already pass                                  |
 
-## Skill dependency graph
+## Skill Workflow
 
 ```mermaid
 flowchart TB
   OE["openspec-explore"]
   OP["openspec-propose"]
+  OAC["openspec-apply-change"]
   SD["debugging-systematically"]
-  TDD["openspec-apply-change<br/>developing-test-first"]
+  TDD["developing-test-first"]
   CR["reviewing-local-changes"]
   V["verifying-before-completion"]
-  C["committing-changes"]
   F["finalizing-changes"]
+  C["committing-changes"]
   PR["addressing-pull-request-reviews"]
   OA["openspec-archive-change"]
 
-  OE -. "when the idea is ready" .-> OP
-  OP -. "when the artifacts are reviewed" .-> TDD
+  OE --> OP --> OAC --> TDD --> V --> F --> PR
   SD -. "when a regression cycle is feasible" .-> TDD
+  SD -. "otherwise" .-> V
   TDD -. "when change risk warrants review" .-> CR
   CR --> V
-  TDD --> V
-  SD --> V
   F -. "when the outcome requires a commit" .-> C
-  C --> V
-  F --> V
-  PR --> C
-  PR --> V
-  F -. "after the merge, for an active change" .-> OA
+  PR -. "for review fixes" .-> C
+  PR -. "after the merge, for an active change" .-> OA
 ```
 
-Arrows mean the source skill explicitly applies the target skill, and dashed edges are conditional or hand off to the target as the next step. `openspec-apply-change` and `developing-test-first` share a node because, with an active OpenSpec change, each task is implemented test-first from its delta-spec scenarios. The OpenSpec skills appear only when the repository uses [OpenSpec](#openspec-optional). TDD requests independent review only when compatibility, security, data-integrity, or operational risk warrants the additional pass.
+The graph shows the order in which the skills run during a change; dashed arrows are conditional steps. The OpenSpec skills apply only when the repository uses [OpenSpec](#openspec-optional); without it, a change starts at `developing-test-first`, or at `debugging-systematically` for a bug. Along the way, skills also load each other: `finalizing-changes`, for example, loads `committing-changes` and `verifying-before-completion`. Each `SKILL.md` names the skills it loads. TDD requests independent review only when compatibility, security, data-integrity, or operational risk warrants the additional pass.
 
 ## OpenSpec (optional)
 
