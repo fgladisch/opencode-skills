@@ -24,6 +24,8 @@ For a checkout elsewhere, replace `"$HOME"/code/opencode-workflow` with its path
 
 Skills in `~/.config/opencode/skills/` take precedence over skills with the same ID in `~/.agents/skills/` or `~/.claude/skills/`, so these versions win when another library shares the names.
 
+To make agents follow the [skill workflow](#skill-workflow), copy the global [`AGENTS.md` gist](https://gist.github.com/fgladisch/ee63b2d81b6714134f411c53a888f07c) to `~/.config/opencode/AGENTS.md`. It lists the skills in workflow order with the condition for loading each one, and adds defaults for branches, commits, tests, and subagents.
+
 ## Commands
 
 | Command              | Purpose                                                                                                              |
