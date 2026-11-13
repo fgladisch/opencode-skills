@@ -106,17 +106,6 @@ A change runs through these steps. Load each OpenSpec skill by mentioning it in 
 5. `/pr` to publish it and address the pull request review, or `finalizing-changes` followed by `addressing-pull-request-reviews`.
 6. After the merge, `@openspec-archive-change` on the base branch to merge the delta specs into `openspec/specs/`, then commit the result.
 
-## OpenCode tooling
-
-- `question` provides structured decisions.
-- `read`, `glob`, `grep`, `edit`, `write`, and `patch` handle repository inspection and changes before shell fallbacks. OpenCode has no symbol-navigation or debugger tool, so the skills trace symbols with `grep` and `read` and confirm with the project's type checker.
-- `shell` runs finite commands; `shell` with `background: true` runs services and watchers that notify the session when they exit. Pull request and issue state comes from `gh` through `shell`.
-- `subagent` runs child sessions; several calls in one response run in parallel. The `reviewer` agent in this repository is the review subagent.
-- The `browser` Code Mode namespace, reached through `execute`, verifies UI behavior when the OpenCode desktop app provides a browser.
-- [Hunk](https://hunk.dev/) is required for `reviewing-local-changes` and `local-review-cycle`: findings, decisions, and fixes are recorded as note threads in a live `hunk diff` session, and `verifying-before-completion` checks those threads before completion claims.
-- Skills load through the `skill` tool, which also returns the skill's base directory so supporting files resolve by relative path.
-- Project instructions live in `AGENTS.md`; OpenCode loads them as repository context.
-
 ## Evaluations
 
 `evals/<skill>.json` holds three scenarios per skill, following the evaluation structure from Anthropic's [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). Each scenario has a realistic `query` that never names a skill, an optional `fixture` from `evals/fixtures/` with `setup` commands that plant the starting state, the `skills` that must load, and an `expected_behavior` rubric.
