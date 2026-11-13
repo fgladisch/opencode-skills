@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Project context for agents working in this repository (`opencode-skills`).
+Project context for agents working in this repository (`opencode-workflow`).
 
 ## Golden rule: keep skills, agents, and `README.md` in sync
 

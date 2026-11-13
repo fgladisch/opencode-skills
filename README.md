@@ -1,4 +1,4 @@
-# opencode-skills
+# opencode-workflow
 
 A personal skills, command, and agent library for [OpenCode](https://opencode.ai). The content targets OpenCode's built-in tool surface and execution workflows.
 
@@ -7,20 +7,20 @@ A personal skills, command, and agent library for [OpenCode](https://opencode.ai
 OpenCode discovers user skills under `~/.config/opencode/skills/`, command files in `~/.config/opencode/commands/`, and agent files in `~/.config/opencode/agents/`. Clone the repository, then symlink each entry:
 
 ```sh
-git clone https://github.com/fgladisch/opencode-skills.git ~/code/opencode-skills
+git clone https://github.com/fgladisch/opencode-workflow.git ~/code/opencode-workflow
 mkdir -p ~/.config/opencode/skills ~/.config/opencode/commands ~/.config/opencode/agents
-for skill in "$HOME"/code/opencode-skills/skills/*; do
+for skill in "$HOME"/code/opencode-workflow/skills/*; do
   ln -sfn "$skill" "$HOME/.config/opencode/skills/$(basename "$skill")"
 done
-for command in "$HOME"/code/opencode-skills/commands/*.md; do
+for command in "$HOME"/code/opencode-workflow/commands/*.md; do
   ln -sfn "$command" "$HOME/.config/opencode/commands/$(basename "$command")"
 done
-for agent in "$HOME"/code/opencode-skills/agents/*.md; do
+for agent in "$HOME"/code/opencode-workflow/agents/*.md; do
   ln -sfn "$agent" "$HOME/.config/opencode/agents/$(basename "$agent")"
 done
 ```
 
-For a checkout elsewhere, replace `"$HOME"/code/opencode-skills` with its path. OpenCode watches its configuration directories and picks up added or removed entries without a restart; run `/reload` to force it.
+For a checkout elsewhere, replace `"$HOME"/code/opencode-workflow` with its path. OpenCode watches its configuration directories and picks up added or removed entries without a restart; run `/reload` to force it.
 
 Skills in `~/.config/opencode/skills/` take precedence over skills with the same ID in `~/.agents/skills/` or `~/.claude/skills/`, so these versions win when another library shares the names.
 
