@@ -53,14 +53,19 @@ Skills in `~/.config/opencode/skills/` take precedence over skills with the same
 
 ```mermaid
 flowchart TB
+  OE["openspec-explore"]
+  OP["openspec-propose"]
   SD["debugging-systematically"]
-  TDD["developing-test-first"]
+  TDD["openspec-apply-change<br/>developing-test-first"]
   CR["reviewing-local-changes"]
   V["verifying-before-completion"]
   C["committing-changes"]
   F["finalizing-changes"]
   PR["addressing-pull-request-reviews"]
+  OA["openspec-archive-change"]
 
+  OE -. "when the idea is ready" .-> OP
+  OP -. "when the artifacts are reviewed" .-> TDD
   SD -. "when a regression cycle is feasible" .-> TDD
   TDD -. "when change risk warrants review" .-> CR
   CR --> V
@@ -71,9 +76,10 @@ flowchart TB
   F --> V
   PR --> C
   PR --> V
+  F -. "after the merge, for an active change" .-> OA
 ```
 
-Arrows mean the source skill explicitly applies the target skill, and dashed edges are conditional. TDD requests independent review only when compatibility, security, data-integrity, or operational risk warrants the additional pass.
+Arrows mean the source skill explicitly applies the target skill, and dashed edges are conditional or hand off to the target as the next step. `openspec-apply-change` and `developing-test-first` share a node because, with an active OpenSpec change, each task is implemented test-first from its delta-spec scenarios. The OpenSpec skills appear only when the repository uses [OpenSpec](#openspec-optional). TDD requests independent review only when compatibility, security, data-integrity, or operational risk warrants the additional pass.
 
 ## OpenSpec (optional)
 
